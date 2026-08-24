@@ -301,16 +301,6 @@ This project uses poetry to manage dependencies and pre-commit to run formatting
 
 Distributed under the Apache-2.0 License. See [LICENSE.txt](./LICENSE.txt) for more information.
 
-## Contact
-
-Levi - [@shady_cuz](https://twitter.com/shady_cuz)
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-* [Taskcat](https://aws-quickstart.github.io/taskcat/)
-* [Hypermodern Python](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/)
-* [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [python-shield]: https://img.shields.io/pypi/pyversions/cloud-radar?style=for-the-badge
