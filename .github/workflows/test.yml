@@ -1,0 +1,70 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - 'master'
+  pull_request:
+    paths-ignore:
+      - '.github/workflows/release.yml'
+      - '.github/workflows/pr_checks.yml'
+
+jobs:
+  pre_commit:
+    runs-on: ubuntu-latest
+    name: Pre-commit
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3.5.2
+
+      - name: Setup Latest Python
+        uses: actions/setup-python@v4.6.0
+        with:
+          python-version: 3.9
+          architecture: x64
+
+      - name: Setup Poetry
+        run: |
+          pip install poetry==1.4.2
+          poetry install
+
+      - name: Setup Coverage
+        run: pip install coverage[toml]
+
+      - name: Run Pre-commit
+        uses: pre-commit/action@v3.0.0
+
+      - name: Convert Coverage
+        run: coverage xml --fail-under=0
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3.1.3
+        with:
+          flags: unit
+          fail_ci_if_error: true
+
+  multi:
+    needs: pre_commit
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9']
+    name: Python ${{ matrix.python-version }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3.5.2
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4.6.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+
+      - name: Setup Nox
+        run: pip install nox==2020.8.22
+
+      - name: Setup Poetry
+        run: pip install poetry==1.4.2
+
+      - name: Run Tests
+        run: nox
